@@ -17,6 +17,7 @@ $factory->define(Book::class, function (Faker $faker) {
         'description' => $faker->paragraph,
         'price' => $faker->randomNumber(),
         'weight' => mt_rand() / mt_getrandmax(),
-        'stock' => $faker->randomNumber()
+        'stock' => $faker->randomNumber(),
+        'image'=> $faker->image('public/storage/image', 640, 480, null, false)
     ];
 });

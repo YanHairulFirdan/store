@@ -2,6 +2,8 @@
 
 use App\Book;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+
 
 class BookSeeder extends Seeder
 {
@@ -12,6 +14,7 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create('en_GB');
         factory(Book::class, 100)->create();
     }
 }
