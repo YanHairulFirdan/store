@@ -17,9 +17,9 @@
                     </div>
                     <div class="col-lg-3 order-2 order-lg-1">
                         <!--
-                                                                                                                        *** MENUS AND FILTERS ***
-                                                                                                                        _________________________________________________________
-                                                                                                                        -->
+                                                                                                                                                *** MENUS AND FILTERS ***
+                                                                                                                                                _________________________________________________________
+                                                                                                                                                -->
                         <div class="card sidebar-menu mb-4">
                             <div class="card-header">
                                 <h3 class="h4 card-title">Categories</h3>
@@ -36,7 +36,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="card sidebar-menu mb-4">
+                        {{-- <div class="card sidebar-menu mb-4">
                             <div class="card-header">
                                 <h3 class="h4 card-title">Brands <a href="#" class="btn btn-sm btn-danger pull-right"><i
                                             class="fa fa-times-circle"></i> Clear</a></h3>
@@ -108,7 +108,7 @@
                                         Apply</button>
                                 </form>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- *** MENUS AND FILTERS END ***-->
                         <div class="banner"><a href="#">
                                 <img src="{{ URL::asset('storage/image/' . $book->image) }}" alt="" class="image-fluid"
@@ -119,7 +119,7 @@
                     <div class="col-lg-9 order-1 order-lg-2">
                         <div id="productMain" class="row">
                             <div class="col-md-6">
-                                <div data-slider-id="1" class="owl-carousel shop-detail-carousel">
+                                {{-- <div data-slider-id="1" class="owl-carousel shop-detail-carousel">
                                     <div class="item"> <img src="img/detailbig1.jpg" alt="" class="img-fluid"></div>
                                     <div class="item"> <img src="img/detailbig2.jpg" alt="" class="img-fluid"></div>
                                     <div class="item"> <img src="img/detailbig3.jpg" alt="" class="img-fluid"></div>
@@ -132,7 +132,9 @@
                                 <div class="ribbon new">
                                     <div class="theribbon">NEW</div>
                                     <div class="ribbon-background"></div>
-                                </div>
+                                </div> --}}
+                                <img src="{{ URL::asset('storage/image/' . $book->image) }}" alt="" class="image-fluid"
+                                    style="max-width: 100%; height: 100%;">
                                 <!-- /.ribbon-->
                             </div>
                             <div class="col-md-6">
@@ -141,19 +143,30 @@
                                     <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to product
                                             details, material &amp; care and sizing</a></p>
                                     <p class="price">${{ $book->price }}</p>
-                                    <p class="text-center buttons"><a href="basket.html" class="btn btn-primary"><i
-                                                class="fa fa-shopping-cart"></i> Add to cart</a><a href="basket.html"
+                                    <form action="tocart" method="POST">
+                                        @csrf
+                                        @method('POST')
+                                        <input type="hidden" value="{{ $book->id }}">
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" name="amount"
+                                                placeholder="amount of book..">
+                                        </div>
+                                        <button class="btn btn-primary btn-lg" type="submit">
+                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                                        </button>
+                                    </form>
+                                    {{-- <p class="text-center buttons"><a href="basket.html" class="btn btn-primary"></a><a href="basket.html"
                                             class="btn btn-outline-primary"><i class="fa fa-heart"></i> Add to wishlist</a>
-                                    </p>
+                                    </p> --}}
                                 </div>
-                                <div data-slider-id="1" class="owl-thumbs">
+                                {{-- <div data-slider-id="1" class="owl-thumbs">
                                     <button class="owl-thumb-item"><img src="img/detailsquare.jpg" alt=""
                                             class="img-fluid"></button>
                                     <button class="owl-thumb-item"><img src="img/detailsquare2.jpg" alt=""
                                             class="img-fluid"></button>
                                     <button class="owl-thumb-item"><img src="img/detailsquare3.jpg" alt=""
                                             class="img-fluid"></button>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div id="details" class="box">
@@ -176,7 +189,7 @@
                             <hr>
 
                         </div>
-                        <div class="row same-height-row">
+                        {{-- <div class="row same-height-row">
                             <div class="col-md-3 col-sm-6">
                                 <div class="box same-height">
                                     <h3>You may also like these products</h3>
@@ -236,8 +249,8 @@
                                 </div>
                                 <!-- /.product-->
                             </div>
-                        </div>
-                        <div class="row same-height-row">
+                        </div> --}}
+                        {{-- <div class="row same-height-row">
                             <div class="col-md-3 col-sm-6">
                                 <div class="box same-height">
                                     <h3>Products viewed recently</h3>
@@ -297,7 +310,7 @@
                                 </div>
                                 <!-- /.product-->
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- /.col-md-9-->
                 </div>
