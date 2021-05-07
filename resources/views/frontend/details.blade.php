@@ -17,9 +17,9 @@
                     </div>
                     <div class="col-lg-3 order-2 order-lg-1">
                         <!--
-                                                                                                                                                *** MENUS AND FILTERS ***
-                                                                                                                                                _________________________________________________________
-                                                                                                                                                -->
+                                                                                                                                                                        *** MENUS AND FILTERS ***
+                                                                                                                                                                        _________________________________________________________
+                                                                                                                                                                        -->
                         <div class="card sidebar-menu mb-4">
                             <div class="card-header">
                                 <h3 class="h4 card-title">Categories</h3>
@@ -35,6 +35,7 @@
                                     @endforeach
                                 </ul>
                             </div>
+                        
                         </div>
                         {{-- <div class="card sidebar-menu mb-4">
                             <div class="card-header">
@@ -143,13 +144,16 @@
                                     <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to product
                                             details, material &amp; care and sizing</a></p>
                                     <p class="price">${{ $book->price }}</p>
-                                    <form action="tocart" method="POST">
+                                    <form action="{{ route('cart.add') }}" method="POST">
                                         @csrf
                                         @method('POST')
-                                        <input type="hidden" value="{{ $book->id }}">
+                                        <input type="hidden" name="id" value="{{ $book->id }}">
                                         <div class="form-group">
                                             <input type="number" class="form-control" name="amount"
                                                 placeholder="amount of book..">
+                                            @error('amount')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <button class="btn btn-primary btn-lg" type="submit">
                                             <i class="fa fa-shopping-cart"></i> Add to cart
