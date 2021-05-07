@@ -14,45 +14,58 @@
                 </div>
                 <div id="basket" class="col-lg-12">
                     <div class="box">
-                        <form method="post" action="checkout1.html">
+                        <form method="post" action="{{ route('input.order') }}">
                             <h1>Shopping cart</h1>
                             <p class="text-muted">You currently have 3 item(s) in your cart.</p>
                             <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center" colspan="2">Product</th>
-                                            <th class="text-center">Quantity</th>
-                                            <th class="text-center">Unit price</th>
-                                            <th class="text-center" colspan="1">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($carts as $cart)
+                                <form action="{{ route('order') }}" method="post">
+                                    @method('POST')
+                                    @csrf
+                                    <table class="table">
+                                        <thead>
                                             <tr>
-                                                <td class="text-center" colspan="2">
-                                                    <img width="120px" height="120px"
-                                                        src="{{ URL::asset('storage/image/' . $cart->book->image) }}" />
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $cart->amount }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $cart->price }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $cart->price * $cart->amount }}
-                                                </td>
+                                                <td></td>
+                                                <th class="text-center" colspan="2">Product</th>
+                                                <th class="text-center">Quantity</th>
+                                                <th class="text-center">Unit price</th>
+                                                <th class="text-center" colspan="1">Total</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th colspan="5">Total</th>
-                                            <th colspan="2">${{ $total }}</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($carts as $cart)
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input name="selected[]" type="checkbox" class=""
+                                                                value="{{ $cart->id }}" onchange="selectItem(this)">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center" colspan="2">
+                                                        <img width="120px" height="120px"
+                                                            src="{{ URL::asset('storage/image/' . $cart->book->image) }}" />
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $cart->amount }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $cart->price }}
+                                                    </td>
+                                                    <td class="text-center" id="total_{{ $cart->id }}">
+                                                        {{ $cart->price * $cart->amount }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="5">Total</th>
+                                                <th colspan="2">$<span id="total"></span></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <button type="submit" class="btn btn-primary">Proceed to checkout <i
+                                            class="fa fa-chevron-right"></i></button>
+                                </form>
                             </div>
                             <!-- /.table-responsive-->
                             <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
@@ -61,8 +74,7 @@
                                 <div class="right">
                                     <button class="btn btn-outline-secondary"><i class="fa fa-refresh"></i> Update
                                         cart</button>
-                                    <button type="submit" class="btn btn-primary">Proceed to checkout <i
-                                            class="fa fa-chevron-right"></i></button>
+
                                 </div>
                             </div>
                         </form>
@@ -180,3 +192,46 @@
         </div>
     </div>
 @endsection
+
+@push('custom')
+    <script>
+        let totalPrice = 0;
+        toggelSubmitButton();
+
+        function selectItem(event) {
+            let eventValue = event.value;
+            // get total element
+            let totalElement = document.getElementById('total');
+            // get total column
+            let totalColumn = document.getElementById(`total_${eventValue}`);
+            // check if target is checked?
+            if (event.checked) {
+                // if yes increase the total element's value by current total colum
+                totalPrice += parseInt(totalColumn.innerText);
+            } else {
+                // else check if total is not nil, 
+                // if yes, decrease the value by current total element's value
+                if (totalPrice > 0) {
+                    totalPrice -= parseInt(totalColumn.innerText);
+                }
+            }
+            toggelSubmitButton();
+            totalElement.innerText = totalPrice;
+        }
+
+
+        function toggelSubmitButton() {
+            var checkboxes = Array.from(document.querySelectorAll("input[type=checkbox]"));
+            console.log(typeof(checkboxes));
+            var submitButton = document.querySelector("button[type=submit]");
+
+            let checked = checkboxes.filter(checkbox => {
+                return checkbox.checked
+            })
+
+            submitButton.disabled = (checked.length == 0) ? true : false;
+
+        }
+
+    </script>
+@endpush

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
@@ -36,7 +37,17 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-    public function checkout()
+    public function inputOrder(Request $request)
     {
+        $arrayOfCart = [];
+        $request->validate([
+            'selected.*' => 'required'
+        ]);
+        foreach ($request->selected as $key => $selectedItem) {
+            if (Book::where('id', $selectedItem)->exists()) {
+                array_push($arrayOfCart, $selectedItem);
+            }
+        }
+        cookie('selectedCart', json_encode($arrayOfCart), 1440);
     }
 }

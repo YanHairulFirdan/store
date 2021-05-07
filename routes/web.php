@@ -27,4 +27,7 @@ Route::get('/books/category/{category}', 'Frontend\BookController@getByCategory'
 // for add cart
 Route::post('/cart/add', 'Frontend\CartController@addBook')->name('cart.add')->middleware('auth');
 Route::get('/carts', 'Frontend\CartController@index')->name('cart.index')->middleware('auth');
+// for order
+Route::post('/order', 'Frontend\CartController@addBook')->name('order')->middleware('auth');
+Route::post('/input-order', 'Frontend\CartController@inputOrder')->name('input.order')->middleware('auth');
 //end of routes for frontend or user
