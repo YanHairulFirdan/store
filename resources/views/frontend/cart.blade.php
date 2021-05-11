@@ -16,7 +16,7 @@
                     <div class="box">
                         <form method="post" action="{{ route('input.order') }}">
                             <h1>Shopping cart</h1>
-                            <p class="text-muted">You currently have 3 item(s) in your cart.</p>
+                            <p class="text-muted">You currently have {{ $carts->count() }} item(s) in your cart.</p>
                             <div class="table-responsive">
                                 <form action="{{ route('order') }}" method="post">
                                     @method('POST')
@@ -26,7 +26,7 @@
                                             <tr>
                                                 <td>
                                                     <input type="checkbox" name="select-all" id="select-all"
-                                                        onchange="selectAll()">
+                                                        onchange="selectAll(this)">
                                                 </td>
                                                 <th class="text-center" colspan="2">Product</th>
                                                 <th class="text-center">Quantity</th>
@@ -206,49 +206,67 @@
             let eventValue = event.value;
             let totalElement = document.getElementById('total');
             let totalColumn = document.getElementById(`total_${eventValue}`);
-
-            if (event.checked) {
-                totalPrice += parseInt(totalColumn.innerText);
-            } else {
-                if (totalPrice > 0) {
-                    totalPrice -= parseInt(totalColumn.innerText);
-                }
-            }
+            print_total_value(event.checked, totalColumn.innerText)
             toggelSubmitButton();
-            totalElement.innerText = totalPrice;
+            // totalElement.innerText = totalPrice;
         }
 
 
         function toggelSubmitButton() {
-            var checkboxes = Array.from(document.querySelectorAll("input[type=checkbox]"));
-            console.log(typeof(checkboxes));
+            var checkboxes = Array.from(document.getElementsByClassName("checkbox"));
             var submitButton = document.querySelector("button[type=submit]");
 
             let checked = checkboxes.filter(checkbox => {
                 return checkbox.checked
             })
 
-            submitButton.disabled = (checked.length == 0) ? true : false;
+            if (checked.length == 0) {
+                submitButton.disabled = true;
+            } else {
+                if (checked.length === checkboxes.length) {
+                    document.getElementById('select-all').checked = true;
+                }
+                submitButton.disabled = false;
+            }
 
         }
 
-        function selectAll() {
+        function selectAll(event) {
             var checkboxes = Array.from(document.getElementsByClassName("checkbox"));
-            console.log(checkboxes);
             let selectedCheckbox = checkboxes.filter(checkbox => checkbox.checked == true);
-            console.log(`checkboxes = ${checkboxes.length}`);
-            console.log(`selected checkboxes = ${selectedCheckbox.length}`);
 
             if (selectedCheckbox.length >= 0 && selectedCheckbox.length < checkboxes.length) {
-                checkboxes.forEach(checkbox => checkbox.checked = true);
+                checkboxes.forEach(checkbox => {
+                    if (!checkbox.checked) {
+                        let totalColumn = document.getElementById(`total_${checkbox.value}`).innerText;
+                        checkbox.checked = true;
+                        print_total_value(checkbox.checked, parseInt(totalColumn));
+                    }
+                });
             } else if (selectedCheckbox.length == checkboxes.length) {
-                console.log('ok');
-                checkboxes.forEach(checkbox => checkbox.checked = false);
+                checkboxes.forEach(checkbox => {
+                    let totalColumn = document.getElementById(`total_${checkbox.value}`).innerText;
+                    checkbox.checked = false
+                    print_total_value(checkbox.checked, parseInt(totalColumn));
+                });
             }
+            toggelSubmitButton();
+        }
 
-
-
-            console.log(selectedCheckbox);
+        function print_total_value(status, value) {
+            console.log(value);
+            let totalElement = document.getElementById('total');
+            if (status) {
+                totalElement.innerText = (totalElement.innerText) ? totalElement.innerText : 0;
+                console.log(totalElement.innerText);
+                totalElement.innerText = parseInt(totalElement.innerText) + parseInt(value);
+                console.log(totalElement.innerText);
+            } else {
+                if (parseInt(totalElement.innerText) > 0) {
+                    totalElement.innerText = parseInt(totalElement.innerText) - parseInt(value);
+                    console.log(totalElement.innerText);
+                }
+            }
         }
 
     </script>
