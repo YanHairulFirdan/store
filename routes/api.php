@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/books', 'BookController');
 Route::resource('/categories', 'CategoryController');
+Route::resource('/cities', 'CityController');
+Route::get('/district/{regency}', 'DistrictController@index');
 // Route::get('/books', 'BookController@index');
 // Route::post('/books', 'BookController@store');
 // Route::get('/books/{book}', 'BookController@show');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Book;
 use App\cart;
 use App\Http\Controllers\Controller;
+use App\Models\Regency;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,5 +50,13 @@ class CartController extends Controller
             }
         }
         cookie('selectedCart', json_encode($arrayOfCart), 1440);
+
+        return redirect()->route('profile.checkout');
+    }
+
+    public function profileCheckout()
+    {
+        $cities = Regency::get();
+        return view('frontend.checkout2', compact('cities'));
     }
 }

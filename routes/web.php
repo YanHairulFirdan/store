@@ -30,4 +30,6 @@ Route::get('/carts', 'Frontend\CartController@index')->name('cart.index')->middl
 // for order
 Route::post('/order', 'Frontend\CartController@addBook')->name('order')->middleware('auth');
 Route::post('/input-order', 'Frontend\CartController@inputOrder')->name('input.order')->middleware('auth');
+Route::get('/profile-checkout', 'Frontend\CartController@profileCheckout')->name('profile.checkout')->middleware('auth');
+Route::post('/input-order', 'Frontend\CartController@inputOrder')->name('input.order')->middleware('auth');
 //end of routes for frontend or user
