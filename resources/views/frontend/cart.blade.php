@@ -24,7 +24,10 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <td></td>
+                                                <td>
+                                                    <input type="checkbox" name="select-all" id="select-all"
+                                                        onchange="selectAll()">
+                                                </td>
                                                 <th class="text-center" colspan="2">Product</th>
                                                 <th class="text-center">Quantity</th>
                                                 <th class="text-center">Unit price</th>
@@ -36,8 +39,9 @@
                                                 <tr>
                                                     <td>
                                                         <div class="form-group">
-                                                            <input name="selected[]" type="checkbox" class=""
-                                                                value="{{ $cart->id }}" onchange="selectItem(this)">
+                                                            <input class="checkbox" name="selected[]" type="checkbox"
+                                                                class="" value="{{ $cart->id }}"
+                                                                onchange="selectItem(this)">
                                                         </div>
                                                     </td>
                                                     <td class="text-center" colspan="2">
@@ -200,17 +204,12 @@
 
         function selectItem(event) {
             let eventValue = event.value;
-            // get total element
             let totalElement = document.getElementById('total');
-            // get total column
             let totalColumn = document.getElementById(`total_${eventValue}`);
-            // check if target is checked?
+
             if (event.checked) {
-                // if yes increase the total element's value by current total colum
                 totalPrice += parseInt(totalColumn.innerText);
             } else {
-                // else check if total is not nil, 
-                // if yes, decrease the value by current total element's value
                 if (totalPrice > 0) {
                     totalPrice -= parseInt(totalColumn.innerText);
                 }
@@ -231,6 +230,25 @@
 
             submitButton.disabled = (checked.length == 0) ? true : false;
 
+        }
+
+        function selectAll() {
+            var checkboxes = Array.from(document.getElementsByClassName("checkbox"));
+            console.log(checkboxes);
+            let selectedCheckbox = checkboxes.filter(checkbox => checkbox.checked == true);
+            console.log(`checkboxes = ${checkboxes.length}`);
+            console.log(`selected checkboxes = ${selectedCheckbox.length}`);
+
+            if (selectedCheckbox.length >= 0 && selectedCheckbox.length < checkboxes.length) {
+                checkboxes.forEach(checkbox => checkbox.checked = true);
+            } else if (selectedCheckbox.length == checkboxes.length) {
+                console.log('ok');
+                checkboxes.forEach(checkbox => checkbox.checked = false);
+            }
+
+
+
+            console.log(selectedCheckbox);
         }
 
     </script>

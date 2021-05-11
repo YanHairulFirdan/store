@@ -28,14 +28,30 @@ class CartController extends Controller
         ]);
 
         $book            = Book::findOrFail($request->id);
-        $cart            = new cart();
-        $cart->book_id   = $book->id;
-        $cart->user_id   = auth()->id();
-        $cart->price     = $book->price;
-        $cart->amount     = $request->amount;
-        $result = $cart->save();
+        // check if book exist inside cart
+        if (cart::where('book_id', $book->id)->exists()) {
+            // if exist 
+            // get the item
+            $existedBook = cart::where('book_id', $book->id)->where('user_id', auth()->id())->first();
+            // add quantity of the item insie chart by amount value
+            $existedBook->amount += $request->amount;
+            // save chart
+            $existedBook->save();
+        } else {
+            // else
+            // create new cart
+            $cartItem            = new cart();
+            $cartItem->book_id   = $book->id;
+            $cartItem->user_id   = auth()->id();
+            $cartItem->price     = $book->price;
+            $cartItem->amount     = $request->amount;
+            // save the cart
+            $result = $cartItem->save();
+        }
 
-        return redirect()->back();
+        // redirect to cart
+
+        return redirect()->route('cart.index');
     }
 
     public function inputOrder(Request $request)
