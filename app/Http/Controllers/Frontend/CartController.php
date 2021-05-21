@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Book;
 use App\cart;
 use App\Http\Controllers\Controller;
+use App\Models\Province;
 use App\Models\Regency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +63,12 @@ class CartController extends Controller
 
     public function profileCheckout()
     {
-        $cities = Regency::get();
-        return view('frontend.checkout2', compact('cities'));
+        $orderSubtotal       = Auth::user()->carts->sum(function ($cart) {
+            return $cart['price'] * $cart['amount'];
+        });
+
+        $shippingAndHandling = 100;
+        $total               = $orderSubtotal + $shippingAndHandling;
+        return view('frontend.checkout2', compact('orderSubtotal', 'shippingAndHandling', 'total'));
     }
 }

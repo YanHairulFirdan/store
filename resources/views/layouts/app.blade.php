@@ -54,11 +54,15 @@
                             day</a><a href="#" class="ml-1">Get flat 35% off on orders over $50!</a></div>
                     <div class="col-lg-6 text-center text-lg-right">
                         <ul class="menu list-inline mb-0">
-                            <li class="list-inline-item"><a href="#" data-toggle="modal"
-                                    data-target="#login-modal">Login</a></li>
-                            <li class="list-inline-item"><a href="register.html">Register</a></li>
-                            <li class="list-inline-item"><a href="contact.html">Contact</a></li>
-                            <li class="list-inline-item"><a href="#">Recently viewed</a></li>
+                            @auth
+
+                                <li class="list-inline-item"><a href="#">Recently viewed</a></li>
+                                <li class="list-inline-item"><a href="contact.html">Contact</a></li>
+                            @else
+                                <li class="list-inline-item"><a href="#" data-toggle="modal"
+                                        data-target="#login-modal">Login</a></li>
+                                <li class="list-inline-item"><a href="register.html">Register</a></li>
+                            @endauth
                         </ul>
                     </div>
                 </div>
@@ -73,13 +77,25 @@
                                     aria-hidden="true">×</span></button>
                         </div>
                         <div class="modal-body">
-                            <form action="customer-orders.html" method="post">
+                            <form action="{{ route('login') }}" method="post">
+                                @method('POST')
+                                @csrf
                                 <div class="form-group">
                                     <input id="email-modal" type="text" placeholder="email" class="form-control">
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <input id="password-modal" type="password" placeholder="password"
                                         class="form-control">
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <p class="text-center">
                                     <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
@@ -333,9 +349,14 @@
                         <div id="search-not-mobile" class="navbar-collapse collapse"></div><a data-toggle="collapse"
                             href="#search" class="btn navbar-btn btn-primary d-none d-lg-inline-block"><span
                                 class="sr-only">Toggle search</span><i class="fa fa-search"></i></a>
-                        <div id="basket-overview" class="navbar-collapse collapse d-none d-lg-block"><a
-                                href="basket.html" class="btn btn-primary navbar-btn"><i
-                                    class="fa fa-shopping-cart"></i><span>3 items in cart</span></a></div>
+                        @auth
+                            <div id="basket-overview" class="navbar-collapse collapse d-none d-lg-block">
+                                <a href="{{ route('cart.index') }}" class="btn btn-primary navbar-btn">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>{{ Auth::user()->carts()->count() }} items in cart</span>
+                                </a>
+                            </div>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -368,11 +389,13 @@
                         <li><a href="contact.html">Contact us</a></li>
                     </ul>
                     <hr>
-                    <h4 class="mb-3">User section</h4>
-                    <ul class="list-unstyled">
-                        <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
-                        <li><a href="register.html">Regiter</a></li>
-                    </ul>
+                    @if (!Auth::user())
+                        <h4 class="mb-3">User section</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                            <li><a href="register.html">Regiter</a></li>
+                        </ul>
+                    @endif
                 </div>
                 <!-- /.col-lg-3-->
                 <div class="col-lg-3 col-md-6">

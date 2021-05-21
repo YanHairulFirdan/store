@@ -37,15 +37,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.row-->
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="regency">Regency</label>
-                                        <select class="form-control" onchange="change_regency()" name="regency" id="">
-                                            <option value="">Select regency here</option>
-                                            @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                        <label for="regency">Province</label>
+                                        <select class="form-control" name="regency" id="">
+                                            <option value="">Select province here</option>
+                                            @foreach ($provinces as $province)
+                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
 
                                             @endforeach
                                         </select>
@@ -59,7 +58,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -69,6 +68,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- /.row-->
                             <!-- /.row-->
                             {{-- <div class="row">
                                 <div class="col-md-6 col-lg-3">
@@ -133,11 +133,11 @@
                                 <tbody>
                                     <tr>
                                         <td>Order subtotal</td>
-                                        <th>$446.00</th>
+                                        <th>${{ $orderSubtotal }}</th>
                                     </tr>
                                     <tr>
                                         <td>Shipping and handling</td>
-                                        <th>$10.00</th>
+                                        <th>${{ $shippingAndHandling }}</th>
                                     </tr>
                                     <tr>
                                         <td>Tax</td>
@@ -145,7 +145,7 @@
                                     </tr>
                                     <tr class="total">
                                         <td>Total</td>
-                                        <th>$456.00</th>
+                                        <th>${{ $total }}</th>
                                     </tr>
                                 </tbody>
                             </table>
