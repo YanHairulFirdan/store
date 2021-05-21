@@ -6,11 +6,8 @@ use App\Book;
 use App\cart;
 use App\Http\Controllers\Controller;
 use App\Models\Regency;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -23,33 +20,25 @@ class CartController extends Controller
     public function addBook(Request $request)
     {
         $request->validate([
-            'id'        => 'required',
-            'amount'    => 'required|min:1'
+            'id'     => 'required',
+            'amount' => 'required|min:1'
         ]);
 
-        $book            = Book::findOrFail($request->id);
-        // check if book exist inside cart
+        $book = Book::findOrFail($request->id);
+
         if (cart::where('book_id', $book->id)->exists()) {
-            // if exist 
-            // get the item
-            $existedBook = cart::where('book_id', $book->id)->where('user_id', auth()->id())->first();
-            // add quantity of the item insie chart by amount value
+            $existedBook          = cart::where('book_id', $book->id)->where('user_id', auth()->id())->first();
             $existedBook->amount += $request->amount;
-            // save chart
+
             $existedBook->save();
         } else {
-            // else
-            // create new cart
-            $cartItem            = new cart();
-            $cartItem->book_id   = $book->id;
-            $cartItem->user_id   = auth()->id();
-            $cartItem->price     = $book->price;
-            $cartItem->amount     = $request->amount;
-            // save the cart
-            $result = $cartItem->save();
+            $cartItem          = new cart();
+            $cartItem->book_id = $book->id;
+            $cartItem->user_id = auth()->id();
+            $cartItem->price   = $book->price;
+            $cartItem->amount  = $request->amount;
+            $result            = $cartItem->save();
         }
-
-        // redirect to cart
 
         return redirect()->route('cart.index');
     }
@@ -57,6 +46,7 @@ class CartController extends Controller
     public function inputOrder(Request $request)
     {
         $arrayOfCart = [];
+
         $request->validate([
             'selected.*' => 'required'
         ]);
