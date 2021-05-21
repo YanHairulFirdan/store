@@ -9,6 +9,8 @@ use App\Models\Province;
 use App\Models\Regency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -56,19 +58,84 @@ class CartController extends Controller
                 array_push($arrayOfCart, $selectedItem);
             }
         }
-        cookie('selectedCart', json_encode($arrayOfCart), 1440);
+        // Cookie::
+        // dd($arrayOfCart);
+        $cookie = cookie('selectedCart', json_encode($arrayOfCart), 1440);
 
-        return redirect()->route('profile.checkout');
+        return redirect()->route('profile.checkout')->cookie($cookie);
     }
 
     public function profileCheckout()
     {
         $orderSubtotal       = Auth::user()->carts->sum(function ($cart) {
+
             return $cart['price'] * $cart['amount'];
         });
 
         $shippingAndHandling = 100;
         $total               = $orderSubtotal + $shippingAndHandling;
         return view('frontend.checkout2', compact('orderSubtotal', 'shippingAndHandling', 'total'));
+    }
+
+    public function saveProfileCheckout(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'name'    => 'required|min:3',
+            'phone'   => 'required|min:12',
+            'address' => 'required|min:15'
+        ]);
+
+        $cookie = cookie('profileCheckout', json_encode($request->except('_token')), 1440);
+
+        return redirect()->route('checkout.delivery')->cookie($cookie);
+    }
+
+    public function showDeliveryType()
+    {
+        return view('frontend.delivery');
+    }
+    public function saveDeliveryType(Request $request)
+    {
+        $request->validate([
+            'delivery' => 'required'
+        ]);
+
+        $cookie = cookie('deliveryMethod', json_encode($request->except('_token')), 1440);
+
+        return redirect()->route('checkout.payment')->cookie($cookie);
+    }
+
+    public function showPaymentType()
+    {
+        return view('frontend.payment');
+    }
+    public function savePaymentType(Request $request)
+    {
+        $request->validate([
+            'payment' => 'required'
+        ]);
+        $cookie = cookie('paymentMethod', json_encode($request->except('_token')), 1440);
+
+        return redirect()->route('checkout.review')->cookie($cookie);
+    }
+    public function showReview()
+    {
+        $selectedItems  = [];
+        $selectedItemId = json_decode(request()->cookie('selectedCart'), true);
+        $total          = 0;
+
+        foreach ($selectedItemId as $key => $id) {
+            $item   = Auth::user()->carts()->find($id);
+            $total += $item->price * $item->amount;
+            array_push($selectedItems, $item);
+        }
+
+        return view('frontend.reviewcheckout', compact('selectedItems', 'total'));
+    }
+    public function saveReview()
+    {
+
+        return redirect()->route('checkout.reviewcheckout');
     }
 }

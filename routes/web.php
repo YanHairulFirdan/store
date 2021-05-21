@@ -30,6 +30,18 @@ Route::get('/carts', 'Frontend\CartController@index')->name('cart.index')->middl
 // for order
 Route::post('/order', 'Frontend\CartController@addBook')->name('order')->middleware('auth');
 Route::post('/input-order', 'Frontend\CartController@inputOrder')->name('input.order')->middleware('auth');
+
 Route::get('/profile-checkout', 'Frontend\CartController@profileCheckout')->name('profile.checkout')->middleware('auth');
+Route::post('/profile-checkout', 'Frontend\CartController@saveProfileCheckout')->name('profile.checkout')->middleware('auth');
+
+Route::get('/delivery-type', 'Frontend\CartController@showDeliveryType')->name('checkout.delivery')->middleware('auth');
+Route::post('/delivery-type', 'Frontend\CartController@saveDeliveryType')->name('checkout.delivery')->middleware('auth');
+
+Route::get('/payment-type', 'Frontend\CartController@showPaymentType')->name('checkout.payment')->middleware('auth');
+Route::post('/payment-type', 'Frontend\CartController@savePaymentType')->name('checkout.payment')->middleware('auth');
+
+Route::get('/checkout-review', 'Frontend\CartController@showreview')->name('checkout.review')->middleware('auth');
+Route::post('/checkout-review', 'Frontend\CartController@savereview')->name('checkout.review')->middleware('auth');
+
 Route::post('/input-order', 'Frontend\CartController@inputOrder')->name('input.order')->middleware('auth');
 //end of routes for frontend or user

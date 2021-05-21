@@ -13,7 +13,9 @@
             </div>
             <div id="checkout" class="col-lg-9">
                 <div class="box">
-                    <form method="get" action="checkout2.html">
+                    <form method="POST" action="{{ route('profile.checkout') }}">
+                        @method('POST')
+                        @csrf
                         <h1>Checkout - Address</h1>
                         <div class="nav flex-column flex-md-row nav-pills text-center"><a href="checkout1.html"
                                 class="nav-link flex-sm-fill text-sm-center active"> <i class="fa fa-map-marker">
@@ -27,14 +29,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input id="name" type="text" class="form-control">
+                                        <input id="name" type="text" class="form-control" name="name">
                                     </div>
+                                    @error('name')
+                                        <div class="text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone">Phone number</label>
-                                        <input id="phone" type="text" class="form-control">
+                                        <input id="phone" type="text" class="form-control" name="phone">
                                     </div>
+                                    @error('phone')
+                                        <div class="text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             {{-- <div class="row">
@@ -63,9 +75,14 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="address">Address</label>
-                                        <textarea name="address" id="address" cols="30" rows="10"
+                                        <textarea name="address" id="address" cols="30" rows="10" name="address"
                                             class="form-control"></textarea>
                                     </div>
+                                    @error('address')
+                                        <div class="text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <!-- /.row-->
