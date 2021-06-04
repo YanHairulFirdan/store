@@ -5,12 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Book;
 use App\cart;
 use App\Http\Controllers\Controller;
-use App\Models\Province;
-use App\Models\Regency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -58,8 +54,8 @@ class CartController extends Controller
                 array_push($arrayOfCart, $selectedItem);
             }
         }
-        // Cookie::
-        // dd($arrayOfCart);
+        
+        
         $cookie = cookie('selectedCart', json_encode($arrayOfCart), 1440);
 
         return redirect()->route('profile.checkout')->cookie($cookie);
@@ -79,7 +75,7 @@ class CartController extends Controller
 
     public function saveProfileCheckout(Request $request)
     {
-        // dd($request);
+        
         $request->validate([
             'name'    => 'required|min:3',
             'phone'   => 'required|min:12',
@@ -126,7 +122,7 @@ class CartController extends Controller
         $total          = 0;
 
         foreach ($selectedItemId as $key => $id) {
-            $item   = Auth::user()->carts()->find($id);
+            $item   = Auth::user()->carts->find($id);
             $total += $item->price * $item->amount;
             array_push($selectedItems, $item);
         }
