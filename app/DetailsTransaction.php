@@ -13,9 +13,10 @@ class DetailsTransaction extends Model
         'price',
         'weight'
     ];
+
     public function book()
     {
-        return $this->hasOne(Book::class);
+        return $this->belongsTo(Book::class);
     }
 
     public function transaction()

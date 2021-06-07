@@ -46,5 +46,6 @@ Route::get('/checkout', 'Frontend\CartController@checkout')->name('checkout')->m
 
 Route::post('/input-order', 'Frontend\CartController@inputOrder')->name('input.order')->middleware('auth');
 
-Route::get('/transactions', 'Frontend\TransactionController@index')->name('transaction.index')->middleware('auth');
+Route::get('/transaction', 'Frontend\TransactionController@index')->name('transaction.index')->middleware('auth');
+Route::get('/transaction/{transaction}', 'Frontend\TransactionController@show')->name('transaction.show')->middleware('auth');
 //end of routes for frontend or user

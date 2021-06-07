@@ -8,9 +8,9 @@ class Book extends Model
 {
     protected $table = 'books';
 
-    public function detailTransaction()
+    public function detailsTransactions()
     {
-        return $this->belongsToMany(DetailsTransaction::class);
+        return $this->hasMany(DetailsTransaction::class);
     }
 
     public function category()

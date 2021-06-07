@@ -12,6 +12,7 @@
                             <th scope="col text-center">total</th>
                             <th scope="col text-center">date of transaction</th>
                             <th scope="col text-center">status</th>
+                            <th scope="col text-center">details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,6 +24,10 @@
                                 <th scope="row text-center">$ {{ $transaction->sub_total }}</th>
                                 <th scope="row text-center">{{ $transaction->created_at }}</th>
                                 <th scope="row text-center">{{ $transaction->status }}</th>
+                                <th scope="row text-center">
+                                    <a href="{{ url('transaction') . '/' . $transaction->id }}"
+                                        class="btn btn-primary">details</a>
+                                </th>
                             </tr>
                         @endforeach
                     </tbody>

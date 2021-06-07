@@ -15,4 +15,11 @@ class TransactionController extends Controller
 
         return view('frontend.transaction.index', compact('transactions'));
     }
+
+    public function show(Transaction $transaction)
+    {
+        $transactions = $transaction->detailTransactions;
+
+        return view('frontend.transaction.detail', compact('transactions'));
+    }
 }
