@@ -58,8 +58,15 @@
 
                                 <li class="list-inline-item"><a href="#">Recently viewed</a></li>
                                 <li class="list-inline-item"><a href="contact.html">Contact</a></li>
+                                <li class="list-inline-item">
+                                    <form class="d-inline" action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-sm" type="submit">logout</button>
+                                    </form>
+                                </li>
+
                             @else
-                                <li class="list-inline-item"><a href="#" data-toggle="modal"
+                                <li class="list-inline-item"><a href="{{ route('login') }}" data-toggle="modal"
                                         data-target="#login-modal">Login</a></li>
                                 <li class="list-inline-item"><a href="{{ route('register') }}">Register</a></li>
                             @endauth
