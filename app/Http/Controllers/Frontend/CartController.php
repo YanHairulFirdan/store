@@ -112,6 +112,8 @@ class CartController extends Controller
                 'price'          => $item->price,
                 'weight'         => $item->book->weight
             ]);
+
+            $item->delete();
         }
         $transaction->sub_total = $total;
 
