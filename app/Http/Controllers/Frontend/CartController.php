@@ -6,6 +6,7 @@ use App\Book;
 use App\cart;
 use App\DetailsTransaction;
 use App\Http\Controllers\Controller;
+use App\Services\CartService;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class CartController extends Controller
 
         return view('frontend.cart', compact('carts', 'total'));
     }
-    public function addBook(Request $request)
+    public function addBook(Request $request, CartService $cartService)
     {
         $request->validate([
             'id'     => 'required',
@@ -29,17 +30,13 @@ class CartController extends Controller
 
         $book        = Book::findOrFail($request->id);
         $existedBook = cart::where('book_id', $book->id)->where('user_id', auth()->id())->first();
+
         if ($existedBook) {
             $existedBook->amount += $request->amount;
 
             $existedBook->save();
         } else {
-            $cartItem          = new cart();
-            $cartItem->book_id = $book->id;
-            $cartItem->user_id = auth()->id();
-            $cartItem->price   = $book->price;
-            $cartItem->amount  = $request->amount;
-            $result            = $cartItem->save();
+            $cartService->create($book, $request->amount);
         }
 
         return redirect()->route('cart.index');
@@ -77,7 +74,7 @@ class CartController extends Controller
         return view('frontend.checkout2', compact('orderSubtotal', 'shippingAndHandling', 'total'));
     }
 
-    public function saveProfileCheckout(Request $request)
+    public function saveProfileCheckout(Request $request, CartService $cartService)
     {
 
         $request->validate([
@@ -100,23 +97,8 @@ class CartController extends Controller
             dd($e->getMessage());
         }
 
-        $selectedItemId = json_decode(request()->cookie('selectedCart'), true);
-        $total          = 0;
-
-        foreach ($selectedItemId as $key => $id) {
-            $item   = Auth::user()->carts->find($id);
-            $total += $item->price * $item->amount;
-
-            DetailsTransaction::create([
-                'transaction_id' => $transaction->id,
-                'book_id'        => $item->book->id,
-                'quantity'       => $item->amount,
-                'price'          => $item->price,
-                'weight'         => $item->book->weight
-            ]);
-
-            $item->delete();
-        }
+        $selectedItemId         = json_decode(request()->cookie('selectedCart'), true);
+        $total                  = $cartService->checkout($selectedItemId, $transaction->id);
         $transaction->sub_total = $total;
 
         $transaction->save();
