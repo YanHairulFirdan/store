@@ -22,4 +22,9 @@ class Book extends Model
     {
         return $this->hasMany(cart::class);
     }
+
+    public function getTitleAttribute($title)
+    {
+        return substr($title, 0, 15);
+    }
 }

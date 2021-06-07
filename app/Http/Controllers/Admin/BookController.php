@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Book;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::orderBy('created_at', 'DESC')->paginate(15);
+
+        return view('admin.book.index', compact('books'));
     }
 
     /**
