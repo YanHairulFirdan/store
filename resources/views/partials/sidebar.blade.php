@@ -12,10 +12,13 @@
         <li class="{{ request()->is('table') ? 'active' : '' }}"><a href="{{ url('table') }}"><i
                     class="fas fa-table"></i> <span>Tables</span></a></li>
         <li class="menu-header">Users</li>
-        <li><a class="nav-link" href=""><i class="fas fa-users"></i> <span>Users</span></a></li>
+        <li><a class="nav-link" href="{{ route('admin.user.index') }}"><i class="fas fa-users"></i>
+                <span>Users</span></a></li>
         <li class="menu-header">Books</li>
-        <li><a class="nav-link" href=""><i class="fas fa-book"></i> <span>Book</span></a></li>
+        <li><a class="nav-link" href="{{ route('admin.book.index') }}"><i class="fas fa-book"></i>
+                <span>Book</span></a></li>
         <li class="menu-header">Transactions</li>
-        <li><a class="nav-link" href=""><i class="fas fa-hand-holding-usd"></i> <span>Transactions</span></a></li>
+        <li><a class="nav-link" href="{{ route('admin.transaction.index') }}"><i class="fas fa-hand-holding-usd"></i>
+                <span>Transactions</span></a></li>
     </ul>
 </aside>
