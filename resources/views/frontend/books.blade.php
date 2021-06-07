@@ -23,9 +23,12 @@
             @endforeach
         </div>
 
-        {{-- <div class="m-auto p-1"> --}}
-        <br><br>
-        {{ $books->onEachSide(2)->links() }}
-        {{-- </div> --}}
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="container">{{ $books->onEachSide(2)->links() }}</div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

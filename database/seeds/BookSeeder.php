@@ -14,7 +14,6 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create('en_GB');
         factory(Book::class, 100)->create();
     }
 }

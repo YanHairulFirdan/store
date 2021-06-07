@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -83,9 +84,40 @@ class CartController extends Controller
             'address' => 'required|min:15'
         ]);
 
-        $cookie = cookie('profileCheckout', json_encode($request->except('_token')), 1440);
+        try {
+            $transaction                   = new Transaction();
+            $transaction->user_id          = Auth::id();
+            $transaction->invoice          = Str::random();
+            $transaction->customer_name    = $request->name;
+            $transaction->customer_phone   = $request->phone;
+            $transaction->customer_address = $request->address;
+            $transaction->status           = 'on process';
 
-        return redirect()->route('checkout.delivery')->cookie($cookie);
+            $transaction->save();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+        $selectedItemId = json_decode(request()->cookie('selectedCart'), true);
+        $total          = 0;
+
+        foreach ($selectedItemId as $key => $id) {
+            $item   = Auth::user()->carts->find($id);
+            $total += $item->price * $item->amount;
+
+            DetailsTransaction::create([
+                'transaction_id' => $transaction->id,
+                'book_id'        => $item->book->id,
+                'quantity'       => $item->amount,
+                'price'          => $item->price,
+                'weight'         => $item->book->weight
+            ]);
+        }
+        $transaction->sub_total = $total;
+
+        $transaction->save();
+
+        return redirect()->route('transaction.index');
     }
 
     public function showDeliveryType()

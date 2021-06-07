@@ -48,14 +48,12 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group row">
-                            <label for="password-confirm"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                        <div class="form-group">
+                            <label for="password-confirm" class="label">{{ __('Confirm Password') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control"
-                                    name="password_confirmation" required autocomplete="new-password">
-                            </div>
+                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
+                                required autocomplete="new-password">
+
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-user-md"></i> Register</button>

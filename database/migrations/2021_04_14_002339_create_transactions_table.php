@@ -19,8 +19,7 @@ class CreateTransactionsTable extends Migration
             $table->string('customer_name')->nullable();
             $table->string('customer_phone');
             $table->string('customer_address');
-            $table->unsignedBigInteger('district_id')->nullable();
-            $table->integer('sub_total');
+            $table->integer('sub_total')->nullable();
             $table->timestamps();
         });
     }
