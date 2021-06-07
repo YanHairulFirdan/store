@@ -24,9 +24,9 @@ class CartService
         $total = 0;
 
         foreach ($ids as $key => $id) {
-            $item   = Auth::user()->carts->find($id);
-            $total += $item->price * $item->amount;
-
+            $item               = Auth::user()->carts->find($id);
+            $total             += $item->price * $item->amount;
+            $item->book->stock -= $item->amount;
             DetailsTransaction::create([
                 'transaction_id' => $transaction_id,
                 'book_id'        => $item->book->id,
