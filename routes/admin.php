@@ -12,7 +12,7 @@
 
 // use Illuminate\Routing\Route;
 
-Route::get('/', 'Admin\DashboardController@index');
+Route::get('/', 'Admin\DashboardController@index')->name('dashboard');
 Route::get('/book', 'Admin\BookController@index');
 Route::post('/book', 'Admin\BookController@store');
 Route::get('/book/{book}', 'Admin\BookController@edit');
