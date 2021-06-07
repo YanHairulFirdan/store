@@ -17,6 +17,7 @@ class CartController extends Controller
     {
         $carts = Auth::user()->carts;
         $total = $carts->sum('amount');
+
         return view('frontend.cart', compact('carts', 'total'));
     }
     public function addBook(Request $request)
