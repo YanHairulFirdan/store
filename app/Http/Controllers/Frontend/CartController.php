@@ -73,6 +73,7 @@ class CartController extends Controller
 
         $shippingAndHandling = 100;
         $total               = $orderSubtotal + $shippingAndHandling;
+
         return view('frontend.checkout2', compact('orderSubtotal', 'shippingAndHandling', 'total'));
     }
 
