@@ -17,9 +17,9 @@
                     </div>
                     <div class="col-lg-3 order-2 order-lg-1">
                         <!--
-                                                                                                                                                                        *** MENUS AND FILTERS ***
-                                                                                                                                                                        _________________________________________________________
-                                                                                                                                                                        -->
+                                                                                                                                                                            *** MENUS AND FILTERS ***
+                                                                                                                                                                            _________________________________________________________
+                                                                                                                                                                            -->
                         <div class="card sidebar-menu mb-4">
                             <div class="card-header">
                                 <h3 class="h4 card-title">Categories</h3>
@@ -35,7 +35,7 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        
+
                         </div>
                         {{-- <div class="card sidebar-menu mb-4">
                             <div class="card-header">
@@ -155,7 +155,7 @@
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <button class="btn btn-primary btn-lg" type="submit">
+                                        <button class="btn btn-primary btn-lg btn-block mt-4" type="submit">
                                             <i class="fa fa-shopping-cart"></i> Add to cart
                                         </button>
                                     </form>

@@ -3,20 +3,20 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             @foreach ($books as $book)
-                <div class="col-md-6 col-lg-4 col-xl-3 my-1">
+                <div class="col-md-4 col-lg-4 col-xl-3 my-1">
                     <div class="card">
+                        <img src="{{ URL::asset('storage/image/' . $book->image) }}" alt="" class="card-img-top"
+                            style="max-width: 100%">
                         <div class="card-body">
-                            <div class="card-image">
-                                <img src="{{ URL::asset('storage/image/' . $book->image) }}" alt="" class="image-fluid"
-                                    style="max-width: 100%">
-                                @if (file_exists('storage/image/' . $book->image))
-                                @endif
-                            </div>
+
+                            @if (file_exists('storage/image/' . $book->image))
+                            @endif
                             <span class="text-center">
                                 {{ $book->title }}
                             </span>
                             <br>
-                            <a href="{{ route('book.details', $book->id) }}" class="btn btn-primary btn-md">Details</a>
+                            <a href="{{ route('book.details', $book->id) }}"
+                                class="btn btn-primary btn-lg btn-block mt-4">Details</a>
                         </div>
                     </div>
                 </div>

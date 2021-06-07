@@ -14,14 +14,7 @@
             <div id="checkout" class="col-lg-9">
                 <div class="box">
                     <form method="get" action="checkout2.html">
-                        <h1>Checkout - Address</h1>
-                        <div class="nav flex-column flex-md-row nav-pills text-center"><a href="checkout1.html"
-                                class="nav-link flex-sm-fill text-sm-center active"> <i class="fa fa-map-marker">
-                                </i>Address</a><a href="#" class="nav-link flex-sm-fill text-sm-center disabled"> <i
-                                    class="fa fa-truck"> </i>Delivery Method</a><a href="#"
-                                class="nav-link flex-sm-fill text-sm-center disabled"> <i class="fa fa-money"> </i>Payment
-                                Method</a><a href="#" class="nav-link flex-sm-fill text-sm-center disabled"> <i
-                                    class="fa fa-eye"> </i>Order Review</a></div>
+                        <h1>Checkout</h1>
                         <div class="content py-3">
                             <div class="row">
                                 <div class="col-md-6">
@@ -116,16 +109,16 @@
                                 <tbody>
                                     <tr>
                                         <td>Order subtotal</td>
-                                        <th>$446.00</th>
+                                        <th>${{ 446.0 }}</th>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <td>Shipping and handling</td>
                                         <th>$10.00</th>
                                     </tr>
                                     <tr>
                                         <td>Tax</td>
                                         <th>$0.00</th>
-                                    </tr>
+                                    </tr> --}}
                                     <tr class="total">
                                         <td>Total</td>
                                         <th>$456.00</th>

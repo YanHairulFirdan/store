@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Book;
 use App\cart;
+use App\DetailsTransaction;
 use App\Http\Controllers\Controller;
+use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,10 +25,9 @@ class CartController extends Controller
             'amount' => 'required|min:1'
         ]);
 
-        $book = Book::findOrFail($request->id);
-
-        if (cart::where('book_id', $book->id)->exists()) {
-            $existedBook          = cart::where('book_id', $book->id)->where('user_id', auth()->id())->first();
+        $book        = Book::findOrFail($request->id);
+        $existedBook = cart::where('book_id', $book->id)->where('user_id', auth()->id())->first();
+        if ($existedBook) {
             $existedBook->amount += $request->amount;
 
             $existedBook->save();
@@ -54,8 +55,8 @@ class CartController extends Controller
                 array_push($arrayOfCart, $selectedItem);
             }
         }
-        
-        
+
+
         $cookie = cookie('selectedCart', json_encode($arrayOfCart), 1440);
 
         return redirect()->route('profile.checkout')->cookie($cookie);
@@ -75,7 +76,7 @@ class CartController extends Controller
 
     public function saveProfileCheckout(Request $request)
     {
-        
+
         $request->validate([
             'name'    => 'required|min:3',
             'phone'   => 'required|min:12',
@@ -124,6 +125,7 @@ class CartController extends Controller
         foreach ($selectedItemId as $key => $id) {
             $item   = Auth::user()->carts->find($id);
             $total += $item->price * $item->amount;
+
             array_push($selectedItems, $item);
         }
 
@@ -131,7 +133,42 @@ class CartController extends Controller
     }
     public function saveReview()
     {
-
         return redirect()->route('checkout.reviewcheckout');
+    }
+
+    public function checkout()
+    {
+        $selectedItemId  = json_decode(request()->cookie('selectedCart'), true);
+        $customerProfile = json_decode(request()->cookie('profileCheckout'), true);
+        $total           = 0;
+        $invoice         = random_bytes(64);
+
+        foreach ($selectedItemId as $key => $id) {
+            $item                        = Auth::user()->carts->find($id);
+            $total                      .= $item->price * $item->amount;
+            $detailTransaction           = new DetailsTransaction();
+            $detailTransaction->book_id  = $item->book->id;
+            $detailTransaction->quantity = $item->amount;
+            $detailTransaction->price    = $item->price * $item->amount;
+            $detailTransaction->weight   = $item->quantity * $item->amount;
+
+            $detailTransaction->save();
+        }
+
+        $transaction                   = new Transaction();
+        $transaction->user_id          = Auth::id();
+        $transaction->invoice          = $invoice;
+        $transaction->customer_name    = $customerProfile['name'];
+        $transaction->customer_phone   = $customerProfile['phone'];
+        $transaction->customer_address = $customerProfile['address'];
+        $transaction->sub_total        = $total;
+
+        $transaction->save();
+
+        request()->session()->forget('profileCheckout');
+        request()->session()->forget('deliveryMethod');
+        request()->session()->forget('paymentMethod');
+
+        return redirect()->route('home');
     }
 }

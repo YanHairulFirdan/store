@@ -14,7 +14,7 @@
             </div>
             <div id="checkout" class="col-lg-9">
                 <div class="box">
-                    <form method="get" action="checkout4.html">
+                    <form method="get" action="{{ route('checkout') }}">
                         <h1>Checkout - Order review</h1>
                         <div class="nav flex-column flex-sm-row nav-pills"><a href="checkout1.html"
                                 class="nav-link flex-sm-fill text-sm-center"> <i class="fa fa-map-marker"> </i>Address</a><a
@@ -65,7 +65,7 @@
                             <!-- /.table-responsive-->
                         </div>
                         <!-- /.content-->
-                        <div class="box-footer d-flex justify-content-between"><a href="checkout3.html"
+                        <div class="box-footer d-flex justify-content-between"><a href="{{ route('checkout') }}"
                                 class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i>Back to payment
                                 method</a>
                             <button type="submit" class="btn btn-primary">Place an order<i

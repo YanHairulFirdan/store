@@ -61,7 +61,7 @@
                             @else
                                 <li class="list-inline-item"><a href="#" data-toggle="modal"
                                         data-target="#login-modal">Login</a></li>
-                                <li class="list-inline-item"><a href="register.html">Register</a></li>
+                                <li class="list-inline-item"><a href="{{ route('register') }}">Register</a></li>
                             @endauth
                         </ul>
                     </div>
@@ -393,7 +393,7 @@
                         <h4 class="mb-3">User section</h4>
                         <ul class="list-unstyled">
                             <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
-                            <li><a href="register.html">Regiter</a></li>
+                            <li><a href="{{ route('register') }}">Regiter</a></li>
                         </ul>
                     @endif
                 </div>

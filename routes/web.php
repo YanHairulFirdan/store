@@ -41,7 +41,8 @@ Route::get('/payment-type', 'Frontend\CartController@showPaymentType')->name('ch
 Route::post('/payment-type', 'Frontend\CartController@savePaymentType')->name('checkout.payment')->middleware('auth');
 
 Route::get('/checkout-review', 'Frontend\CartController@showreview')->name('checkout.review')->middleware('auth');
-Route::post('/checkout-review', 'Frontend\CartController@savereview')->name('checkout.review')->middleware('auth');
+
+Route::get('/checkout', 'Frontend\CartController@checkout')->name('checkout')->middleware('auth');
 
 Route::post('/input-order', 'Frontend\CartController@inputOrder')->name('input.order')->middleware('auth');
 //end of routes for frontend or user
