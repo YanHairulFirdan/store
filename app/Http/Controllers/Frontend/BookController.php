@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Book;
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -20,6 +21,8 @@ class BookController extends Controller
 
     public function details(Book $book)
     {
+        $admin = User::where('role', 'admin')->get();
+
         $categories = Category::get();
         return view('frontend.details', compact('book', 'categories'));
     }

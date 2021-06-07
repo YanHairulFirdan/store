@@ -17,8 +17,7 @@ class checkRole
     public function handle($request, Closure $next)
     {
 
-        // dd(Auth::user()->role != 'admin');
-        if (Auth::user()->role != 'admin') {
+        if (!Auth::user()->role == 'admin') {
             return redirect('home');
         }
 
