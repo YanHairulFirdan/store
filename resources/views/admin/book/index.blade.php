@@ -82,7 +82,8 @@
                             </th>
                             <td>
                                 <a href="{{ url('/admin/book/' . $book->id) }}" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="{{ url('/admin/book/' . $book->id) }}" class="btn btn-sm btn-success">Edit</a>
+                                <a href="{{ route('book.edit', ['book' => $book->id]) }}"
+                                    class="btn btn-sm btn-success">Edit</a>
                             </td>
                         </tr>
                     @endforeach

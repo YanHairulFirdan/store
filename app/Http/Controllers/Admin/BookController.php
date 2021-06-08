@@ -60,7 +60,9 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = Book::findOrFail($id);
+
+        return view('admin.book.edit', compact('book'));
     }
 
     /**
