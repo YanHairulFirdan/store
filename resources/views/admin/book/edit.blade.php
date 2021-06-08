@@ -23,6 +23,23 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="category">Category</label>
+                                <select name="category" id="category" class="form-control">
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            {{ $book->category_id == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                {{-- <input type="text" name="category" id="category" class="form-control"
+                                    value="{{ old('category') ? old('category') : $book->category }}"> --}}
+                                @error('category')
+                                    <div class="alert alert-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="writer">Writer</label>
                                 <input type="text" name="writer" id="writer" class="form-control"
                                     value="{{ old('writer') ? old('writer') : $book->writer }}">

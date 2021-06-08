@@ -13,7 +13,7 @@ class BookRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,16 @@ class BookRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title'            => 'required|min:8',
+            'category_id'      => 'required',
+            'writer'           => 'required|min:10',
+            'publication_year' => 'required',
+            'publisher'        => 'required|min:8',
+            'description'      => 'required|min:30',
+            'price'            => 'required|min:1',
+            'weight'           => 'required|min:0.1',
+            'stock'            => 'required|min:10',
+            'image'            => 'sometimes|required|mimes:jpg,png,jpeg|size:1500',
         ];
     }
 }

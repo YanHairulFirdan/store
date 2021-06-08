@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Book;
+use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -60,9 +62,10 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = Book::findOrFail($id);
+        $book       = Book::findOrFail($id);
+        $categories = Category::get();
 
-        return view('admin.book.edit', compact('book'));
+        return view('admin.book.edit', compact('book', 'categories'));
     }
 
     /**
@@ -72,9 +75,9 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BookRequest $bookRequest, Book $book)
     {
-        //
+        $validated = $bookRequest->validated();
     }
 
     /**
