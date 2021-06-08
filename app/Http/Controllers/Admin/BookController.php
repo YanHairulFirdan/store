@@ -41,7 +41,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.book.create');
     }
 
     /**
@@ -50,9 +50,20 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $bookRequest)
     {
-        //
+        $book    = new Book();
+        $created = $this->bookService->store($bookRequest, $book);
+
+        if ($created) {
+            $message = 'book has been updated successfully';
+            $class   = 'success';
+        } else {
+            $message = 'failed to update the book';
+            $class   = 'danger';
+        }
+
+        return redirect()->route('book.index')->with(['message' => $message, 'class' => $class]);
     }
 
     /**
@@ -63,7 +74,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+        dd($id);
     }
 
     /**
@@ -96,7 +107,7 @@ class BookController extends Controller
             unlink($oldImage);
         }
         // dd('ok');
-        $updated   = $this->bookService->update($bookRequest, $book);
+        $updated   = $this->bookService->store($bookRequest, $book);
 
         if ($updated) {
             $message = 'book has been updated successfully';
@@ -115,8 +126,13 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return redirect()->route('book.index')->with([
+            'message' => 'book has been updated successfully',
+            'class'   => 'success'
+        ]);
     }
 }

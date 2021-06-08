@@ -83,7 +83,14 @@
                                 @endif
                             </th>
                             <td>
-                                <a href="{{ url('/admin/book/' . $book->id) }}" class="btn btn-sm btn-danger">Delete</a>
+                                <form action="{{ route('book.destroy', ['book' => $book->id]) }}" class="d-inline"
+                                    method="post">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="alert('delete this book?')">delete</button>
+                                </form>
+
                                 <a href="{{ route('book.edit', ['book' => $book->id]) }}"
                                     class="btn btn-sm btn-success">Edit</a>
                             </td>

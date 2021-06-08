@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\URL;
 
 class BookService
 {
-    public function update(BookRequest $bookRequest, Book $book)
+    public function store(BookRequest $bookRequest, Book $book)
     {
         $path                   = public_path('storage/image/');
         $book->title            = $bookRequest->title;
