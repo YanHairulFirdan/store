@@ -25,6 +25,6 @@ Route::resource('book', 'Admin\BookController');
 Route::get('/user', 'Admin\UserController@index')->name('admin.user.index');
 Route::put('/user', 'Admin\UserController@update');
 
-Route::get('/transaction', 'Admin\TransactionController@index')->name('admin.transaction.index');
-Route::put('/transaction', 'Admin\TransactionController@update');
+Route::get('/transaction', 'Admin\TransactionController@index')->name('transaction.index');
+Route::put('/transaction/{transaction}', 'Admin\TransactionController@update')->name('transaction.update');
 // Route::get('/user/{user}', 'Admin\UserController@index');

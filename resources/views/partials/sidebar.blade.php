@@ -18,7 +18,7 @@
         <li><a class="nav-link" href="{{ route('book.index') }}"><i class="fas fa-book"></i>
                 <span>Book</span></a></li>
         <li class="menu-header">Transactions</li>
-        <li><a class="nav-link" href="{{ route('admin.transaction.index') }}"><i class="fas fa-hand-holding-usd"></i>
+        <li><a class="nav-link" href="{{ route('transaction.index') }}"><i class="fas fa-hand-holding-usd"></i>
                 <span>Transactions</span></a></li>
     </ul>
 </aside>
