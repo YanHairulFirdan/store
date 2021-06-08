@@ -8,7 +8,10 @@
                         Update book
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('book.edit', ['book' => $book->id]) }}" method="POST"
+                        {{-- @if ($errors->any())
+                            {{ dd($errors->all()) }}
+                        @endif --}}
+                        <form action="{{ route('book.update', ['book' => $book->id]) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -23,17 +26,17 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="category">Category</label>
-                                <select name="category" id="category" class="form-control">
+                                <label for="category_id">Category</label>
+                                <select name="category_id" id="category_id" class="form-control">
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
                                             {{ $book->category_id == $category->id ? 'selected' : '' }}>
                                             {{ $category->name }}</option>
                                     @endforeach
                                 </select>
-                                {{-- <input type="text" name="category" id="category" class="form-control"
+                                {{-- <input type="text" name="category_id" id="category_id" class="form-control"
                                     value="{{ old('category') ? old('category') : $book->category }}"> --}}
-                                @error('category')
+                                @error('category_id')
                                     <div class="alert alert-danger">
                                         {{ $message }}
                                     </div>
@@ -117,6 +120,11 @@
                                 <div>
                                     <small>You can drag and drop your image for upload directly here</small>
                                 </div>
+                                @error('image')
+                                    <div class="alert alert-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-lg btn-block">update</button>

@@ -6,15 +6,27 @@ use App\Book;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequest;
+use App\Services\BookService;
+use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File as FacadesFile;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\Rules\Exists;
 
 class BookController extends Controller
 {
+    private $bookService;
+
+    public function __construct(BookService $bookService)
+    {
+        $this->bookService = $bookService;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $books = Book::orderBy('created_at', 'DESC')->paginate(15);
@@ -77,7 +89,24 @@ class BookController extends Controller
      */
     public function update(BookRequest $bookRequest, Book $book)
     {
+        $oldImage  = str_replace('\\', '/', public_path('\storage\image\\' .  $book->image));
         $validated = $bookRequest->validated();
+
+        if (file_exists($oldImage)) {
+            unlink($oldImage);
+        }
+        // dd('ok');
+        $updated   = $this->bookService->update($bookRequest, $book);
+
+        if ($updated) {
+            $message = 'book has been updated successfully';
+            $class   = 'success';
+        } else {
+            $message = 'failed to update the book';
+            $class   = 'danger';
+        }
+
+        return redirect()->route('book.index')->with(['message' => $message, 'class' => $class]);
     }
 
     /**

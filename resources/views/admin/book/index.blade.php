@@ -77,8 +77,10 @@
                                 {{ $book->stock }}
                             </th>
                             <th>
-                                <img width="40px" height="40px" src="{{ URL::asset('storage/image/' . $book->image) }}"
-                                    alt="" class="card-img-top">
+                                @if (file_exists(public_path('storage/image/' . $book->image)))
+                                    <img width="40px" height="40px" src="{{ asset('storage/image/' . $book->image) }}"
+                                        alt="" class="card-img-top">
+                                @endif
                             </th>
                             <td>
                                 <a href="{{ url('/admin/book/' . $book->id) }}" class="btn btn-sm btn-danger">Delete</a>

@@ -30,10 +30,10 @@ class BookRequest extends FormRequest
             'publication_year' => 'required',
             'publisher'        => 'required|min:8',
             'description'      => 'required|min:30',
-            'price'            => 'required|min:1',
-            'weight'           => 'required|min:0.1',
-            'stock'            => 'required|min:10',
-            'image'            => 'sometimes|required|mimes:jpg,png,jpeg|size:1500',
+            'price'            => 'required|numeric|min:1',
+            'weight'           => 'required|numeric|min:0.1',
+            'stock'            => 'required|numeric|min:10',
+            'image'            => 'sometimes|required|mimes:jpg,png,jpeg|max:1000',
         ];
     }
 }

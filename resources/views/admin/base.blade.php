@@ -12,6 +12,15 @@
 
         <!-- Main Content -->
         <div class="main-content">
+            @if (Session::has('message'))
+                <div class="conatiner">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="alert alert-{{ Session::get('class') }}">{{ Session::get('message') }}</div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @yield('content')
         </div>
         <footer class="main-footer">
