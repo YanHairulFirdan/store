@@ -41,7 +41,9 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('admin.book.create');
+        $categories = Category::get();
+
+        return view('admin.book.create', compact('categories'));
     }
 
     /**

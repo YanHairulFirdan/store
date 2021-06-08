@@ -98,6 +98,10 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('book.create') }}" class="btn btn-primary d-inline-block btn-lg pull-right">Add new
+                    book</a>
+            </div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
