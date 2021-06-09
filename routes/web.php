@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 //routes for frontend or user
+
+Route::get('/image', 'ImageController@index')->name('image');
+Route::post('/image', 'ImageController@upload')->name('image');
+
 Route::get('/', 'Frontend\BookController@index')->name('books');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/books/details/{book}', 'Frontend\BookController@details')->name('book.details');

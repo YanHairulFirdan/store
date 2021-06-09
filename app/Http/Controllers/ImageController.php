@@ -10,7 +10,7 @@ class ImageController extends Controller
 {
     public function index()
     {
-        return view('upload.form');
+        return view('upload.index');
     }
 
     public function upload(Request $request)
@@ -31,6 +31,6 @@ class ImageController extends Controller
 
         ProcessImageThumbnail::dispatch($image);
 
-        return redirect(route('image'))->with(['message' => 'image upload succesfully']);
+        return redirect()->to('/image')->with(['message' => 'image upload succesfully']);
     }
 }
