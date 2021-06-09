@@ -12,9 +12,13 @@
     @if (Session::has('message'))
         {{ Session::get('message') }}
     @endif
-    <form action="route('image')" method="post" enctype="multipart/form-data">
+    <form action="{{ route('image') }}" method="post" enctype="multipart/form-data">
+        @csrf
         <input type="file" name="demo_image" id="">
         <br>
+        @error('demo_image')
+            {{ $message }}
+        @enderror
         <button type="submit">submit</button>
     </form>
 </body>

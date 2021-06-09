@@ -19,13 +19,13 @@ class ImageController extends Controller
             'demo_image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $image = $request->file('image');
+        $image = $request->file('demo_image');
         $input['demo_image'] = time() . '.' . $image->getClientOriginalExtension();
         $destinationPath = public_path('/images');
         $image->move($destinationPath, $input['demo_image']);
 
         $image = new Image();
-        $image->org_path = 'image' . DIRECTORY_SEPARATOR . $input['demo_image'];
+        $image->org_path = 'images' . DIRECTORY_SEPARATOR . $input['demo_image'];
 
         $image->save();
 
