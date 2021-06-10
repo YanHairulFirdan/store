@@ -38,11 +38,11 @@ Route::post('/input-order', 'Frontend\CartController@inputOrder')->name('input.o
 Route::get('/profile-checkout', 'Frontend\CartController@profileCheckout')->name('profile.checkout')->middleware('auth');
 Route::post('/profile-checkout', 'Frontend\CartController@saveProfileCheckout')->name('profile.checkout')->middleware('auth');
 
-Route::get('/delivery-type', 'Frontend\CartController@showDeliveryType')->name('checkout.delivery')->middleware('auth');
-Route::post('/delivery-type', 'Frontend\CartController@saveDeliveryType')->name('checkout.delivery')->middleware('auth');
+// Route::get('/delivery-type', 'Frontend\CartController@showDeliveryType')->name('checkout.delivery')->middleware('auth');
+// Route::post('/delivery-type', 'Frontend\CartController@saveDeliveryType')->name('checkout.delivery')->middleware('auth');
 
-Route::get('/payment-type', 'Frontend\CartController@showPaymentType')->name('checkout.payment')->middleware('auth');
-Route::post('/payment-type', 'Frontend\CartController@savePaymentType')->name('checkout.payment')->middleware('auth');
+// Route::get('/payment-type', 'Frontend\CartController@showPaymentType')->name('checkout.payment')->middleware('auth');
+// Route::post('/payment-type', 'Frontend\CartController@savePaymentType')->name('checkout.payment')->middleware('auth');
 
 Route::get('/checkout-review', 'Frontend\CartController@showreview')->name('checkout.review')->middleware('auth');
 
