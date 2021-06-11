@@ -1,4 +1,25 @@
 @extends('layouts.app')
+@section('custom_style')
+    <style>
+        .increase,
+        .decrease,
+        .save,
+        .hide {
+            display: none !important;
+        }
+
+        .show {
+            display: block !important;
+        }
+
+        input {
+            display: inline-block;
+            width: 3em;
+            text-align: center;
+        }
+
+    </style>
+@endsection
 @section('content')
     <div class="container">
         <div class="container">
@@ -36,7 +57,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($carts as $cart)
-                                                <tr>
+                                                <tr class="my-2 p-1">
                                                     <td>
                                                         <div class="form-group">
                                                             <input class="checkbox" name="selected[]" type="checkbox"
@@ -51,28 +72,28 @@
                                                     <td class="text-center">
                                                         <div class="row my-1 justify-content-center">
                                                             <div class="">
-                                                                <span class="btn btn-sm btn-warning"
+                                                                <span class="btn btn-sm btn-warning decrease"
                                                                     id="decrease_{{ $cart->id }}"
                                                                     onclick="update_item_amount(false, {{ $cart->id }})">
                                                                     -
                                                                 </span>
                                                             </div>
                                                             <div class="mx-1">
-                                                                <input type="number" name="amount"
+                                                                <input type="text" name="amount"
                                                                     id="amount_{{ $cart->id }}"
-                                                                    style="display: inline-block; width: 3em; text-align: center"
                                                                     value="{{ $cart->amount }}"
-                                                                    onclick="active({{ $cart->id }})">
+                                                                    onclick="toggleShow({{ $cart->id }})">
                                                             </div>
                                                             <div class="">
-                                                                <span class="btn btn-sm btn-primary"
+                                                                <span class="btn btn-sm btn-primary increase"
                                                                     id="increase_{{ $cart->id }}"
                                                                     onclick="update_item_amount(true, {{ $cart->id }})">
                                                                     +
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <span class="btn btn-lg btn-success"
+                                                        <span class="btn btn-lg btn-success save"
+                                                            id="save_{{ $cart->id }}"
                                                             onclick="save({{ $cart->id }})">
                                                             save
                                                         </span>
@@ -224,6 +245,29 @@
 
 @push('custom')
     <script>
+        let buttons = [
+            'increase_',
+            'decrease_',
+            'save_'
+        ];
+        buttons.forEach(button => {
+            document.getElementById(buttons + id).display = 'none';
+        });
+
+        function toggleShow(id) {
+
+            let buttons = [
+                'increase_',
+                'decrease_',
+                'save_'
+            ];
+
+            buttons.forEach(button => {
+                processButton = document.getElementById(button + id);
+                processButton.classList.toggle('show');
+            });
+        }
+
         function save(id) {
 
             let eventCapture = null;
@@ -250,7 +294,9 @@
                 .then(message => console.log(message))
                 .catch(error => {
                     console.error(error);
-                })
+                });
+
+            toggleShow(id);
         }
 
         function update_item_amount(status, id) {
@@ -265,7 +311,7 @@
 
             total.innerText = amount.value * unitPrice;
         }
-
+        // un used functions
         const update_amount = debounce(() => {
             update(event)
         }, 250)
@@ -313,6 +359,7 @@
                 }
             }
         }
+        // end of un used function
 
         let totalPrice = 0;
         toggelSubmitButton();
@@ -323,7 +370,6 @@
             let totalColumn = document.getElementById(`total_${eventValue}`);
             print_total_value(event.checked, totalColumn.innerText)
             toggelSubmitButton();
-            // totalElement.innerText = totalPrice;
         }
 
 
