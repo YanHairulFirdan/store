@@ -41,9 +41,12 @@ class CartService
         return $total;
     }
 
-    public function increase(Cart $cart, int $amount)
+    public function update(Cart $cart, int $amount)
     {
-        $cart->amount += $amount;
+        if ($amount === 0) {
+            return $cart->delete();
+        }
+        $cart->amount = $amount;
 
         return $cart->save();
     }

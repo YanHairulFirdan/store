@@ -22,6 +22,8 @@ Route::get('/district/{regency}', 'DistrictController@index');
 // Route::post('/books', 'BookController@store');
 // Route::get('/books/{book}', 'BookController@show');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:web')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::put('/cart/update/{cart}', 'FrontEnd\CartController@updateCart')->middleware('auth:web');

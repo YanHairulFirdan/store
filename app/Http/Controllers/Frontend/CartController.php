@@ -10,10 +10,17 @@ use App\Services\CartService;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
+    private $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
     public function index()
     {
         $carts = Auth::user()->carts;
@@ -21,7 +28,7 @@ class CartController extends Controller
 
         return view('frontend.cart', compact('carts', 'total'));
     }
-    public function addBook(Request $request, CartService $cartService)
+    public function addBook(Request $request)
     {
         $request->validate([
             'id'     => 'required',
@@ -36,21 +43,28 @@ class CartController extends Controller
 
             $existedBook->save();
         } else {
-            $cartService->create($book, $request->amount);
+            $this->cartService->create($book, $request->amount);
         }
 
         return redirect()->route('cart.index');
     }
 
-    public function increaseItem(Request $request, Cart $cart, CartService $cartService)
+    public function updateCart(Request $request, Cart $cart)
     {
-        $message = '';
-        $amount  = $request->amount;
+        $message        = '';
+        $status         = false;
+        $additionalInfo = '';
+        $amount         = $request->amount;
+        Log::info("amount of item = $request->amount");
         try {
-            $message = $cartService->increase($cart, $amount) ? 'Item\'s amount has been updated' : 'cannot updated item\' amount';
+            $message = $this->cartService->update($cart, $amount) ? 'Item\'s amount has been updated' : 'cannot updated item\' amount';
+            $status  = true;
         } catch (\Exception $e) {
-            $message = $e->getMessage();
+            $additionalInfo = $e->getMessage();
+            $message = 'cannot update the amount of this item';
         }
+
+        return response()->json([$message, $additionalInfo, $status]);
     }
 
     public function inputOrder(Request $request)
@@ -60,6 +74,7 @@ class CartController extends Controller
         $request->validate([
             'selected.*' => 'required'
         ]);
+
         foreach ($request->selected as $key => $selectedItem) {
             if (Book::where('id', $selectedItem)->exists()) {
                 array_push($arrayOfCart, $selectedItem);

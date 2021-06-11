@@ -207,28 +207,30 @@
             let amount = document.getElementById('amount').value;
             let unitPrice = document.getElementById('price').innerText;
             let total = document.getElementById('unit_total_price');
-            let url = '';
+            let csrf = document.querySelector('meta[name="csrf-token"]').content;
+            let url = 'http://127.0.0.1:8000/api/cart/update/6';
             console.log(amount);
             total.innerText = amount * parseInt(unitPrice);
-            // fetch(url, {
-            //         headers: {
-            //             "Content-type": "application/json",
-            //             "Accept": "application/json, text-plain",
-            //             "X-Requested-With": "XLMHttpRequest",
-            //             "X-CSRF-TOKEN": ''
-            //         },
-            //         method: "POST",
-            //         credentials: "same-origin",
-            //         body: JSON.stringify({
-            //             amount
-            //         })
-            //     })
-            //     .then((response) => {
-            //         console.log(response);
-            //     })
-            //     .catch(error => {
-            //         console.error(error);
-            //     })
+            fetch(url, {
+                    headers: {
+                        "Content-type": "application/json",
+                        "Accept": "application/json, text-plain",
+                        "X-Requested-With": "XLMHttpRequest",
+                        'X-CSRF-TOKEN': csrf
+                    },
+                    method: "PUT",
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                        amount
+                    })
+                })
+                .then((response) => {
+                    response.json();
+                })
+                .then(message => console.log(message))
+                .catch(error => {
+                    console.error(error);
+                })
         }
 
         const update_amount = debounce(() => {
