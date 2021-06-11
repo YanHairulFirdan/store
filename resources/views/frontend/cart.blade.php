@@ -49,11 +49,33 @@
                                                             src="{{ URL::asset('storage/image/' . $cart->book->image) }}" />
                                                     </td>
                                                     <td class="text-center">
-                                                        <div class="d-flex jsutify content-between">
-                                                            <input type="number" name="amount" id="amount" class=""
-                                                                style="display: inline-block; width: 3em; text-align: center; padding:.1em 0"
-                                                                value="{{ $cart->amount }}" onchange="update_amount()">
+                                                        <div class="row my-1 justify-content-center">
+                                                            <div class="">
+                                                                <span class="btn btn-sm btn-warning"
+                                                                    id="decrease_{{ $cart->id }}"
+                                                                    onclick="update_item_amount(false, {{ $cart->id }})">
+                                                                    -
+                                                                </span>
+                                                            </div>
+                                                            <div class="mx-1">
+                                                                <input type="number" name="amount"
+                                                                    id="amount_{{ $cart->id }}"
+                                                                    style="display: inline-block; width: 3em; text-align: center"
+                                                                    value="{{ $cart->amount }}"
+                                                                    onclick="active({{ $cart->id }})">
+                                                            </div>
+                                                            <div class="">
+                                                                <span class="btn btn-sm btn-primary"
+                                                                    id="increase_{{ $cart->id }}"
+                                                                    onclick="update_item_amount(true, {{ $cart->id }})">
+                                                                    +
+                                                                </span>
+                                                            </div>
                                                         </div>
+                                                        <span class="btn btn-lg btn-success"
+                                                            onclick="save({{ $cart->id }})">
+                                                            save
+                                                        </span>
                                                     </td>
                                                     <td class="text-center" id="price">
                                                         {{ $cart->price }}
@@ -82,7 +104,6 @@
                                 <div class="right">
                                     <button class="btn btn-outline-secondary"><i class="fa fa-refresh"></i> Update
                                         cart</button>
-
                                 </div>
                             </div>
                         </form>
@@ -203,14 +224,13 @@
 
 @push('custom')
     <script>
-        function update() {
-            let amount = document.getElementById('amount').value;
-            let unitPrice = document.getElementById('price').innerText;
-            let total = document.getElementById('unit_total_price');
+        function save(id) {
+
+            let eventCapture = null;
+            let amount = document.getElementById('amount_' + id).value;
             let csrf = document.querySelector('meta[name="csrf-token"]').content;
-            let url = 'http://127.0.0.1:8000/api/cart/update/6';
-            console.log(amount);
-            total.innerText = amount * parseInt(unitPrice);
+            let url = 'http://127.0.0.1:8000/api/cart/update/' + id;
+
             fetch(url, {
                     headers: {
                         "Content-type": "application/json",
@@ -233,8 +253,21 @@
                 })
         }
 
+        function update_item_amount(status, id) {
+            let amount = document.getElementById('amount_' + id);
+            let unitPrice = document.getElementById('price').innerText;
+            let total = document.getElementById('unit_total_price');
+
+            if (amount.value == 1) {
+                amount.value = 1;
+            }
+            status ? amount.value++ : amount.value--;
+
+            total.innerText = amount.value * unitPrice;
+        }
+
         const update_amount = debounce(() => {
-            update()
+            update(event)
         }, 250)
 
         function debounce_leading(func, timeout = 300) {
