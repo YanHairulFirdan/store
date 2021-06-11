@@ -103,7 +103,7 @@
                                                     <td class="text-center">
                                                         <div class="row my-1 justify-content-center">
                                                             <div class="">
-                                                                <span class="btn btn-sm btn-warning decrease"
+                                                                <span class="btn btn-sm rounded-circle btn-warning decrease"
                                                                     id="decrease_{{ $cart->id }}"
                                                                     onclick="update_item_amount(false, {{ $cart->id }})">
                                                                     -
@@ -116,7 +116,7 @@
                                                                     onclick="toggleShow({{ $cart->id }})">
                                                             </div>
                                                             <div class="">
-                                                                <span class="btn btn-sm btn-primary increase"
+                                                                <span class="btn btn-sm rounded-circle btn-primary increase"
                                                                     id="increase_{{ $cart->id }}"
                                                                     onclick="update_item_amount(true, {{ $cart->id }})">
                                                                     +
