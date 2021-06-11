@@ -8,14 +8,44 @@
             display: none !important;
         }
 
+        .hide {
+            animation: hide 1s;
+        }
+
         .show {
             display: block !important;
+            animation: show 1s;
         }
 
         input {
             display: inline-block;
             width: 3em;
             text-align: center;
+        }
+
+        @keyframes show {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes hide {
+
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(0);
+            }
         }
 
     </style>
@@ -265,6 +295,7 @@
             buttons.forEach(button => {
                 processButton = document.getElementById(button + id);
                 processButton.classList.toggle('show');
+                processButton.classList.toggle('hide');
             });
         }
 
