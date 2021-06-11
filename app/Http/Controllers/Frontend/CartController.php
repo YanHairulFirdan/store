@@ -87,6 +87,13 @@ class CartController extends Controller
         return redirect()->route('profile.checkout')->cookie($cookie);
     }
 
+    public function delete(Cart $cart)
+    {
+        $cart->delete();
+
+        return redirect()->back();
+    }
+
     public function profileCheckout()
     {
         $orderSubtotal       = Auth::user()->carts->sum(function ($cart) {

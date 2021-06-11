@@ -83,6 +83,7 @@
                                                 <th class="text-center">Quantity</th>
                                                 <th class="text-center">Unit price</th>
                                                 <th class="text-center" colspan="1">Total</th>
+                                                <th class="text-center" colspan="1">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -134,6 +135,13 @@
                                                     <td class="text-center" id="unit_total_price">
                                                         {{ $cart->price * $cart->amount }}
                                                     </td>
+                                                    <td>
+                                                        <a href="{{ route('cart.destroy', ['cart' => $cart->id]) }}"
+                                                            class="btn btn-sm btn-danger"
+                                                            onclick="alert('delete this book?')">delete</a>
+
+                                                    </td>
+
                                                 </tr>
                                             @endforeach
                                         </tbody>

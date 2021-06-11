@@ -30,6 +30,7 @@ Route::get('/books/category/{category}', 'Frontend\BookController@getByCategory'
 
 // for add cart
 Route::post('/cart/add', 'Frontend\CartController@addBook')->name('cart.add')->middleware('auth');
+Route::get('/cart/{cart}', 'Frontend\CartController@delete')->name('cart.destroy')->middleware('auth');
 Route::get('/carts', 'Frontend\CartController@index')->name('cart.index')->middleware('auth');
 // for order
 Route::post('/order', 'Frontend\CartController@addBook')->name('order')->middleware('auth');
