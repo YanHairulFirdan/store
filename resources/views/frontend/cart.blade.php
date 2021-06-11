@@ -49,7 +49,11 @@
                                                             src="{{ URL::asset('storage/image/' . $cart->book->image) }}" />
                                                     </td>
                                                     <td class="text-center">
-                                                        {{ $cart->amount }}
+                                                        <div class="d-flex jsutify content-between">
+                                                            <input type="number" name="amount" id="amount" class=""
+                                                                style="display: inline-block; width: 3em; text-align: center; padding:.1em 0"
+                                                                value="{{ $cart->amount }}" onchange="update_amount()">
+                                                        </div>
                                                     </td>
                                                     <td class="text-center">
                                                         {{ $cart->price }}
@@ -199,6 +203,77 @@
 
 @push('custom')
     <script>
+        function update() {
+            let amount = document.getElementById('amount').value;
+            let url = '';
+            console.log(amount);
+            // fetch(url, {
+            //         headers: {
+            //             "Content-type": "application/json",
+            //             "Accept": "application/json, text-plain",
+            //             "X-Requested-With": "XLMHttpRequest",
+            //             "X-CSRF-TOKEN": ''
+            //         },
+            //         method: "POST",
+            //         credentials: "same-origin",
+            //         body: JSON.stringify({
+            //             amount
+            //         })
+            //     })
+            //     .then((response) => {
+            //         console.log(response);
+            //     })
+            //     .catch(error => {
+            //         console.error(error);
+            //     })
+        }
+
+        const update_amount = debounce(() => {
+            update()
+        }, 250)
+
+        function debounce_leading(func, timeout = 300) {
+            let timer;
+
+            return (...args) => {
+                if (!timer) {
+                    func.apply(this, args);
+                }
+
+                clearTimeout(timer);
+
+                timer = setTimeout(() => {
+                    timer = undefined;
+                }, timeout);
+            }
+        }
+
+        function debounce(func, wait, immadiate) {
+            let timeout;
+
+            return function() {
+                let context = this;
+                let args = arguments;
+                console.log(func);
+                console.log(context);
+                console.log(args);
+                let later = function() {
+                    timeout = null;
+                    if (!immadiate) {
+                        func.apply(context, args);
+                    }
+                }
+
+                let callNow = immadiate && !timeout;
+                clearTimeout(timeout)
+                timeout = setTimeout(later, wait)
+
+                if (callNow) {
+                    func.apply(context, args)
+                }
+            }
+        }
+
         let totalPrice = 0;
         toggelSubmitButton();
 

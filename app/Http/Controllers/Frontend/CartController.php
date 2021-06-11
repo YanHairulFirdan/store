@@ -42,6 +42,17 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
+    public function increaseItem(Request $request, Cart $cart, CartService $cartService)
+    {
+        $message = '';
+        $amount  = $request->amount;
+        try {
+            $message = $cartService->increase($cart, $amount) ? 'Item\'s amount has been updated' : 'cannot updated item\' amount';
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
+    }
+
     public function inputOrder(Request $request)
     {
         $arrayOfCart = [];

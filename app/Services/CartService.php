@@ -40,4 +40,11 @@ class CartService
 
         return $total;
     }
+
+    public function increase(Cart $cart, int $amount)
+    {
+        $cart->amount += $amount;
+
+        return $cart->save();
+    }
 }
