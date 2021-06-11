@@ -55,10 +55,10 @@
                                                                 value="{{ $cart->amount }}" onchange="update_amount()">
                                                         </div>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="text-center" id="price">
                                                         {{ $cart->price }}
                                                     </td>
-                                                    <td class="text-center" id="total_{{ $cart->id }}">
+                                                    <td class="text-center" id="unit_total_price">
                                                         {{ $cart->price * $cart->amount }}
                                                     </td>
                                                 </tr>
@@ -205,8 +205,11 @@
     <script>
         function update() {
             let amount = document.getElementById('amount').value;
+            let unitPrice = document.getElementById('price').innerText;
+            let total = document.getElementById('unit_total_price');
             let url = '';
             console.log(amount);
+            total.innerText = amount * parseInt(unitPrice);
             // fetch(url, {
             //         headers: {
             //             "Content-type": "application/json",
@@ -250,26 +253,28 @@
 
         function debounce(func, wait, immadiate) {
             let timeout;
+            let called = 0;
 
             return function() {
                 let context = this;
+                console.log(called++);
                 let args = arguments;
-                console.log(func);
-                console.log(context);
-                console.log(args);
+
                 let later = function() {
                     timeout = null;
                     if (!immadiate) {
-                        func.apply(context, args);
+                        func.apply(context);
                     }
                 }
 
                 let callNow = immadiate && !timeout;
+
                 clearTimeout(timeout)
+
                 timeout = setTimeout(later, wait)
 
                 if (callNow) {
-                    func.apply(context, args)
+                    func.apply(context)
                 }
             }
         }
@@ -329,7 +334,6 @@
         }
 
         function print_total_value(status, value) {
-            console.log(value);
             let totalElement = document.getElementById('total');
             if (status) {
                 totalElement.innerText = (totalElement.innerText) ? totalElement.innerText : 0;
